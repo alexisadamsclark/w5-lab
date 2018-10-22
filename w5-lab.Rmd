@@ -48,6 +48,20 @@ output            : papaja::apa6_pdf
 
 ```{r setup, include = FALSE}
 library("papaja")
+library(here)
+library(rio)
+library(ggplot2)
+library(dplyr)
+library(knitr)
+
+list.files(here("Data"))
+data <- import(here("Data", "star.csv"))
+
+opts_chunk$set(fig.width=6.5, 
+               fig.height=8, 
+               message = FALSE, 
+               warning = FALSE,
+               include = FALSE)
 ```
 
 ```{r analysis-preferences}
