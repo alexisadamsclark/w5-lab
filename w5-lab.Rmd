@@ -19,11 +19,8 @@ affiliation:
     institution   : University of Oregon
 
 
-authornote: |
-  Add complete departmental affiliations for each author here. Each new line herein must be indented, like this line.
-
-  I could not remove the author note!
-
+authornote:
+  I could not remove the author note! ME NEITHER!!!
 abstract: |
   Hello, this is the abstract.   Hello, this is the abstract.   Hello, this is the abstract.   Hello, this is the abstract.   Hello, this is the abstract.   Hello, this is the abstract.   Hello, this is the abstract.   Hello, this is the abstract.   Hello, this is the abstract.   Hello, this is the abstract.   Hello, this is the abstract.   Hello, this is the abstract.   Hello, this is the abstract.   Hello, this is the abstract.   Hello, this is the abstract.   Hello, this is the abstract.   Hello, this is the abstract.   Hello, this is the abstract.   Hello, this is the abstract.   Hello, this is the abstract.   Hello, this is the abstract.   Hello, this is the abstract.   Hello, this is the abstract.   Hello, this is the abstract.   Hello, this is the abstract.   Hello, this is the abstract. 
   
@@ -31,7 +28,7 @@ abstract: |
   
 keywords          : "group project, R, github"
 
-bibliography      : ["r-references.bib"]
+bibliography      : ["references.bib"]
 
 floatsintext      : no
 figurelist        : no
@@ -47,21 +44,20 @@ output            : papaja::apa6_pdf
 ---
 
 ```{r setup, include = FALSE}
-library("papaja")
+library(papaja)
 library(here)
 library(rio)
 library(ggplot2)
 library(dplyr)
 library(knitr)
-
+library(tidyverse)
 list.files(here("Data"))
 data <- import(here("Data", "star.csv"))
-
 opts_chunk$set(fig.width=6.5, 
                fig.height=8, 
-               message = FALSE, 
+               message = TRUE, 
                warning = FALSE,
-               include = FALSE)
+               include = TRUE)
 ```
 
 ```{r analysis-preferences}
@@ -70,7 +66,8 @@ set.seed(42)
 knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 ```
 
-
+# Introduction
+We cited this paper @rosenbergtidylpa and this paper @oliveira2008balance!
 
 # Methods
 We report how we determined our sample size, all data exclusions (if any), all manipulations, and all measures in the study. <!-- 21-word solution (Simmons, Nelson & Simonsohn, 2012; retrieved from http://ssrn.com/abstract=2160588) -->
@@ -82,10 +79,18 @@ We report how we determined our sample size, all data exclusions (if any), all m
 ## Procedure
 
 ## Data analysis
-We used `r cite_r("r-references.bib")` for all our analyses.
-
 
 # Results
+```{r table, results = 'asis'}
+data %>% 
+  group_by(sex, frl) %>% 
+  summarize(math_mean = mean(tmathss), 
+            math_sd = sd(tmathss, na.rm = TRUE), 
+            rdg_mean = mean(treadss), 
+            rdg_sd = sd(treadss, na.rm = TRUE)) %>% 
+  knitr::kable(format = "latex")
+```
+
 
 # Discussion
 
@@ -94,7 +99,7 @@ We used `r cite_r("r-references.bib")` for all our analyses.
 
 # References
 ```{r create_r-references}
-r_refs(file = "r-references.bib")
+r_refs(file = "references.bib")
 ```
 
 \begingroup
