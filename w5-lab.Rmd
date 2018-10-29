@@ -91,6 +91,26 @@ data %>%
   knitr::kable(format = "latex")
 ```
 
+```{r plot}
+#Subset data
+View(data)
+data_p <- data %>% 
+            characterize() %>% 
+            select(totexp, tmathss, frl)
+View(data_p)
+
+#Plot data
+ggplot(data_p, aes(x=totexp, y=tmathss, color=factor(frl))) +
+       geom_point(color="gray") +
+       geom_smooth(se=TRUE, method="lm") +
+       theme_minimal() +
+       theme(legend.position="none") +
+       labs(x="Teacher Experience (years)",
+            y="Total Math Scale Score",
+            title="Relation between teacher experience and math scores",
+            subtitle="Separate regression lines displayed by free/reduced prince lunch status")
+```
+
 
 # Discussion
 
