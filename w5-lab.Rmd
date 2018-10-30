@@ -52,6 +52,9 @@ library(dplyr)
 library(knitr)
 library(tidyverse)
 list.files(here("Data"))
+
+# Generally, you won't want your data import to go in a "inclue = FALSE" chunk
+# The rest of this stuff is good here though.
 data <- import(here("Data", "star.csv"))
 opts_chunk$set(fig.width=6.5, 
                fig.height=8, 
@@ -81,23 +84,32 @@ We report how we determined our sample size, all data exclusions (if any), all m
 ## Data analysis
 
 # Results
-```{r table, results = 'asis'}
+Why is this table showing up in text.
+
+```{r table}
 data %>% 
   group_by(sex, frl) %>% 
   summarize(math_mean = mean(tmathss), 
             math_sd = sd(tmathss, na.rm = TRUE), 
             rdg_mean = mean(treadss), 
             rdg_sd = sd(treadss, na.rm = TRUE)) %>% 
-  knitr::kable(format = "latex")
+knitr::kable(format = "latex", 
+             booktabs = TRUE,
+             caption = "An awesome table")
+
+# Put a caption on it to get it to go where it should. For figs you need to
+# include it as a chunk option, which you can see below. Also put 
+# `booktabs = TRUE` to make it look nicer. Another alternative is 
+# `papaja::apa_table`
 ```
 
-```{r plot}
+```{r fig.cap="My amazing figure"}
 #Subset data
-View(data)
+#View(data)
 data_p <- data %>% 
             characterize() %>% 
             select(totexp, tmathss, frl)
-View(data_p)
+#View(data_p) # These bits should be commented out or remved prior to knitting
 
 #Plot data
 ggplot(data_p, aes(x=totexp, y=tmathss, color=factor(frl))) +
